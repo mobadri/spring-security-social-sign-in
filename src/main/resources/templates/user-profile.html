@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <style>
+        /* Basic styling for the user profile page */
+        body {
+            background-color: #f0f2f5;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .profile-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 400px;
+            text-align: center;
+        }
+
+        .profile-container h2 {
+            margin-bottom: 20px;
+        }
+
+        .profile-details {
+            text-align: left;
+            margin: 10px 0;
+        }
+
+        .profile-details p {
+            font-size: 16px;
+            margin: 5px 0;
+        }
+
+        .logout-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .logout-button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+<div class="profile-container">
+    <h2>Welcome, <span th:text="${firstname}">User</span>!</h2>
+    <div class="profile-details">
+        <p><strong>User:</strong> <span th:text="${username}">john_doe</span></p>
+        <p><strong>First Name:</strong> <span th:text="${firstname}">John</span></p>
+        <p><strong>Last Name:</strong> <span th:text="${lastname}">Doe</span></p>
+        <p><strong>Email:</strong> <span th:text="${email}">john.doe@example.com</span></p>
+    </div>
+    <a href="/logout" class="logout-button">Logout</a>
+</div>
+</body>
+</html>
