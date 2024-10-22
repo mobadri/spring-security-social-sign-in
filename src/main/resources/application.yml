@@ -10,8 +10,8 @@ spring:
     name: spring-security-social-sign-in
   datasource:
     url: jdbc:mysql://localhost:3306/oidc?createDatabaseIfNotExist=true
-    username: root
-    password: root
+    username:
+    password:
   jpa:
     hibernate:
       ddl-auto: update
@@ -20,6 +20,6 @@ spring:
       client:
         registration:
           google:
-            client-id: 715455510507-4too3465rb54t5vka1eavc1n2at765eb.apps.googleusercontent.com
-            client-secret: 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
+            client-id:
+            client-secret:
 
