@@ -1,6 +1,8 @@
 package com.badri.springsecuritysocialsignin.config;
 
 import com.badri.springsecuritysocialsignin.service.MyUserDetailsService;
+import com.badri.springsecuritysocialsignin.userdetails.CustomOAuth2UserService;
+import com.badri.springsecuritysocialsignin.userdetails.MyUSerGrantedAuthoritiesMapper;
 import com.badri.springsecuritysocialsignin.util.AuthenticationSuccessHandler;
 import com.badri.springsecuritysocialsignin.util.OAuth2AuthenticationSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +31,12 @@ public class SecurityConfiguration {
     @Autowired
     private OAuth2AuthenticationSuccessHandler oAuth2SuccessHandler;
 
+    @Autowired
+    private CustomOAuth2UserService oAuth2UserService;
+
+    @Autowired
+    private MyUSerGrantedAuthoritiesMapper grantedAuthoritiesMapper;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -46,11 +54,18 @@ public class SecurityConfiguration {
                         .permitAll()
                 )
                 .oauth2Login(oauth2login -> oauth2login
-                        .loginPage("/login")
-                        .successHandler(oAuth2SuccessHandler)
+                                .loginPage("/login")
+                                .successHandler(oAuth2SuccessHandler)
+                                .userInfoEndpoint(userInfo -> userInfo
+                                        .userAuthoritiesMapper(grantedAuthoritiesMapper))
+//                                .userService(oAuth2UserService))
                 );
         return http.build();
     }
+
+//    private OAuth2UserService<OAuth2UserRequest, OAuth2User> oauth2UserService() {
+//
+//    }
 
     @Bean
     public AuthenticationProvider authenticationProvider() {

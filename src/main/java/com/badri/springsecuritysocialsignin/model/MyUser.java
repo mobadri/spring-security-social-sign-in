@@ -1,11 +1,12 @@
 package com.badri.springsecuritysocialsignin.model;
 
+import com.badri.springsecuritysocialsignin.userdetails.MyUserAuthenticatedPrincipal;
 import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
 @Data
-public class MyUser {
+public class MyUser implements MyUserAuthenticatedPrincipal {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -19,4 +20,8 @@ public class MyUser {
     private String password;
     private String roles;
 
+    @Override
+    public String getFirstAndLastName() {
+        return firstName + " " + lastName;
+    }
 }

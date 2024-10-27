@@ -34,11 +34,13 @@ public class MyUSerGrantedAuthoritiesMapper implements GrantedAuthoritiesMapper 
                 OidcUserInfo userInfo = oidcUserAuthority.getUserInfo();
 
                 Map<String, Object> userAttributes = oidcUserAuthority.getAttributes();
+//                mappedAuthorities.add(new SimpleGrantedAuthority(((OidcUserAuthority) authority).getIdToken().getNonce()));
 
             } else if (authority instanceof OAuth2UserAuthority) {
                 OAuth2UserAuthority oAuth2UserAuthority = (OAuth2UserAuthority) authority;
                 Map<String, Object> userAttributes = oAuth2UserAuthority.getAttributes();
             }
+//            CommonOAuth2Provider
             mappedAuthorities.add(new SimpleGrantedAuthority("ROLE_USER"));
         });
         return mappedAuthorities;

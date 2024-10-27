@@ -10,8 +10,8 @@ spring:
     name: spring-security-social-sign-in
   datasource:
     url: jdbc:mysql://localhost:3306/oidc?createDatabaseIfNotExist=true
-    username:
-    password:
+    username: root
+    password: root
   jpa:
     hibernate:
       ddl-auto: update
@@ -22,4 +22,20 @@ spring:
           google:
             client-id:
             client-secret:
-
+          facebook:
+            client-id:
+            client-secret:
+            scope:
+              - public_profile
+          microsoft:
+            client-id:
+            client-secret:
+            scope: openid, profile, email, offline_access
+            #            authorization-grant-type: authorization_code
+            #            redirect-uri: "{baseUrl}/login/oauth2/code/microsoft"
+            client-name: Microsoft
+        provider:
+          microsoft:
+            issuer-uri: https://login.microsoftonline.com/tenant-id/v2.0
+          google:
+            authorization-uri: https://accounts.google.com/o/oauth2/v2/auth?access_type=offline

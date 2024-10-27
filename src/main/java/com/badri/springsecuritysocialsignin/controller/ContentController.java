@@ -5,7 +5,8 @@ import com.badri.springsecuritysocialsignin.repo.MyUserRepository;
 import com.badri.springsecuritysocialsignin.service.MyUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
@@ -26,6 +27,9 @@ public class ContentController {
 
     @Autowired
     private MyUserRepository repository;
+
+    @Autowired
+    private OAuth2AuthorizedClientService authorizedClientService;
 
     @GetMapping("/login")
     public String login() {
@@ -84,8 +88,7 @@ public class ContentController {
         String firstname = "";
         String lastname = "";
         String email = "";
-
-        if (principal instanceof User) { // username & password authentication
+        if (principal instanceof UserDetails) { // username & password authentication
             MyUser user = null;
             username = authentication.getName();
             Optional<MyUser> optionalUser = repository.findByUserName(username);
@@ -109,15 +112,48 @@ public class ContentController {
                 String name = attributes.get("name").toString();
                 firstname = name.split(" ")[0];
                 lastname = name.split(" ")[1];
+                email = attributes.get("email").toString();
             }
-
         }
-
-
         model.addAttribute("username", username);
         model.addAttribute("firstname", firstname);
         model.addAttribute("lastname", lastname);
         model.addAttribute("email", email);
         return "user-profile";
     }
+
+    // after customizing the facebook connect user
+//    @GetMapping("/profile")
+//    public String userProfile(Model model, @AuthenticationPrincipal MyUserAuthenticatedPrincipal principal) {
+////        Object principal = authentication.getPrincipal();
+//        String username = "";
+//        String firstname = "";
+//        String lastname = "";
+//        String email = "";
+//        if (principal instanceof User) { // username & password authentication
+//            MyUser user = null;
+//            username = ((User) principal).getUsername();
+//            Optional<MyUser> optionalUser = repository.findByUserName(username);
+//            if (optionalUser.isPresent()) {
+//                user = optionalUser.get();
+//            }
+//            username = user.getUserName();
+//            firstname = user.getFirstName();
+//            lastname = user.getLastName();
+//            email = user.getEmail();
+//        } else if (principal instanceof OAuth2User) {
+//            Map<String, Object> attributes = ((OAuth2User) principal).getAttributes();
+//            username = attributes.get("sub").toString();
+//            firstname = attributes.get("given_name").toString();
+//            lastname = attributes.get("family_name").toString();
+//            email = attributes.get("email").toString();
+//        }
+//        model.addAttribute("username", username);
+//        model.addAttribute("firstname", firstname);
+//        model.addAttribute("lastname", lastname);
+//        model.addAttribute("email", email);
+//        return "user-profile";
+//    }
+
+
 }
